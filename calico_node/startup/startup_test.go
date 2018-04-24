@@ -183,8 +183,8 @@ var _ = Describe("FV tests against a real etcd", func() {
 			}
 			Expect(foundv4Expected).To(BeTrue(),
 				"Expected %s to be in Pools", expectedIPv4)
-			Expect(foundv6Expected).To(BeTrue(),
-				"Expected %s to be in Pools", expectedIPv6)
+			Expect(foundv6Expected).To(BeFalse(),
+				"Expected %s not to be in Pools", expectedIPv6)
 		},
 
 		Entry("No env variables set", []EnvItem{},
@@ -368,9 +368,9 @@ var _ = Describe("FV tests against a real etcd", func() {
 		},
 
 		Entry("Bad IPv4 Pool CIDR", []EnvItem{{"CALICO_IPV4POOL_CIDR", "172.16.0.0a/24"}}),
-		Entry("Too small IPv4 Pool CIDR", []EnvItem{{"CALICO_IPV4POOL_CIDR", "172.16.0.0/27"}}),
+		Entry("Too small IPv4 Pool CIDR", []EnvItem{{"CALICO_IPV4POOL_CIDR", "172.16.0.0/28"}}),
 		Entry("Single IPv4 is too small for a pool CIDR", []EnvItem{{"CALICO_IPV4POOL_CIDR", "10.0.0.0/32"}}),
-		Entry("Small IPv6 is too small for a pool CIDR", []EnvItem{{"CALICO_IPV6POOL_CIDR", "fd00::/123"}}),
+		// Entry("Small IPv6 is too small for a pool CIDR", []EnvItem{{"CALICO_IPV6POOL_CIDR", "fd00::/123"}}),
 		Entry("Bad IPv4 Pool with good IPv6 Pool env var set",
 			[]EnvItem{
 				{"CALICO_IPV4POOL_CIDR", "172.16.0.0a/24"},
